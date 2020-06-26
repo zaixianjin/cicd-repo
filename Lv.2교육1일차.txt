@@ -1,0 +1,120 @@
+[20/6/23]
+
+https://workflowy.com/s/msa/27a0ioMCzlpV04Ib#/62a296734f02
+
+
+[1] docker ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+docker run --name my-nginx -d -p 80:80 nginx
+
+docker run --name my-nginx7 -d -p 8082:80 nginx
+
+
+https://hub.docker.com/
+
+
+
+docker run --name my-nginx2 -d -p 80:8080 nginx
+
+https://www.cncf.io/
+
+
+[2] AWS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+eksctl create cluster --name admin06-Cluster --version 1.15 --nodegroup-name standard-workers --node-type t3.medium --nodes 3 --nodes-min 1 --nodes-max 3
+
+
+Access key ID	Secret access key
+AKIAQYU2ROSK5Y53C5NW	K1AI3vcLnk1cIaG+3vKZ9qd5AneAqDBr9D30tVdJ
+ap-northeast-2	
+
+
+https://ap-northeast-2.console.aws.amazon.com/eks/home?region=ap-northeast-2#/clusters
+
+
+aws eks --region ap-northeast-2	update-kubeconfig --name admin06
+
+skccadmin@SKCC16D00057:~/.aws$ kubectl config current-context
+admin06@admin06-Cluster.ap-northeast-2.eksctl.io
+skccadmin@SKCC16D00057:~/.aws$
+
+
+skccadmin@SKCC16D00057:~/.aws$ kubectl get nodes
+NAME                                                STATUS   ROLES    AGE   VERSION
+ip-192-168-17-99.ap-northeast-2.compute.internal    Ready    <none>   92s   v1.15.11-eks-af3caf
+ip-192-168-63-169.ap-northeast-2.compute.internal   Ready    <none>   91s   v1.15.11-eks-af3caf
+ip-192-168-79-233.ap-northeast-2.compute.internal   Ready    <none>   92s   v1.15.11-eks-af3caf
+skccadmin@SKCC16D00057:~/.aws$
+
+
+kubectl create deploy my-nginx --image=jaehkim/my-nginx:v1
+ 
+ 
+https://ap-northeast-2.console.aws.amazon.com/eks/home?region=ap-northeast-2#/clusters/admin06-Cluster
+ 
+skccadmin@SKCC16D00057:~/.aws$ kubectl get all
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/my-nginx-76cd864895-tsrfv   1/1     Running   0          2m35s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   24m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/my-nginx   1/1     1            1           2m35s
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-76cd864895   1         1         1       2m35s
+skccadmin@SKCC16D00057:~/.aws$
+
+
+skccadmin@SKCC16D00057:~/.aws$ kubectl expose deploy my-nginx --type=LoadBalancer --port=80
+service/my-nginx exposed
+skccadmin@SKCC16D00057:~/.aws$
+
+
+skccadmin@SKCC16D00057:~/.aws$ kubectl get all
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/my-nginx-76cd864895-tsrfv   1/1     Running   0          6m44s
+
+NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP                                                                    PORT(S)        AGE
+service/kubernetes   ClusterIP      10.100.0.1     <none>                                                                         443/TCP        28m
+service/my-nginx     LoadBalancer   10.100.27.69   ad2d82e9bec6041fda2450c0b83f58de-1936267613.ap-northeast-2.elb.amazonaws.com   80:31504/TCP   16s
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/my-nginx   1/1     1            1           6m44s
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-76cd864895   1         1         1       6m44s
+skccadmin@SKCC16D00057:~/.aws$
+
+ad2d82e9bec6041fda2450c0b83f58de-1936267613.ap-northeast-2.elb.amazonaws.com
+
+
+
+  416  kubectl create deploy my-nginx --image=jaehkim/my-nginx:v1
+  417  kubectl get all
+  418  kubectl expose deploy my-nginx --type=LoadBalancer --port=80
+  419  kubectl get all
+  
+  
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod
+error: resource(s) were provided, but no name, label selector, or --all flag specified
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-tsrfv
+pod "my-nginx-76cd864895-tsrfv" deleted
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-tsrfv
+Error from server (NotFound): pods "my-nginx-76cd864895-tsrfv" not found
+skccadmin@SKCC16D00057:~/.aws$ kubectl get pod
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-76cd864895-rf8pv   1/1     Running   0          86s
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-rf8pv
+pod "my-nginx-76cd864895-rf8pv" deleted
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-fbmn2
+pod "my-nginx-76cd864895-fbmn2" deleted
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-fbmn2
+Error from server (NotFound): pods "my-nginx-76cd864895-fbmn2" not found
+skccadmin@SKCC16D00057:~/.aws$ kubectl delete pod my-nginx-76cd864895-vz666
+pod "my-nginx-76cd864895-vz666" deleted
+skccadmin@SKCC16D00057:~/.aws$
+
+
