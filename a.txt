@@ -1,3 +1,12 @@
 Hi, Guys.
 Today is June 26, 2020.
 This is the sample text you must remember.
+
+
+git remote add origin https://github.com/zaixianjin/cicd-repo.git
+IBM Vmware - 가상 데스크탑 인프라‎
+광고·
+www.ibm.com/vmware/horizon
+‎
+‎
+IBM클라우드에서 완전 관리형 E2E 데스크탑을 서비스 솔루션으로 시작하세요. IBM 전문가가 VDI의 복잡한 유지 관리를 관리하고 비즈니스에만 집중하세요. 글로벌 인프라. 비용 효과적. 워크로드 마이그레이션. 가상 워크로드 보호. 강력한 보안. 세계적 수준의 전문성.
